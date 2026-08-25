@@ -29,7 +29,7 @@ I believe that information should be free and public for anyone to access withou
 
 # 💾 Installation
 
-- Download the release from [here](https://github.com/iiDk-the-actual/LibrePad/releases/latest)
+- Download the release from [here](https://github.com/usefull-creations/LibrePad-Updated/releases/latest)
 - Drag the file `LibrePad.dll` to your plugins folder
 - Start Gorilla Tag if needed
 
