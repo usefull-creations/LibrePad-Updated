@@ -29,11 +29,14 @@ namespace LibrePad.Patches
             }
 
             CosmeticsController.CosmeticSet cosmeticSet = __instance.cosmeticSet;
-            if (cosmeticSet.items.Any(cosmetic => !cosmetic.isNullItem && !__instance.rawCosmeticString.Contains(cosmetic.itemName)))
+            if (cosmeticSet.items.Any(cosmetic =>
+                    !cosmetic.isNullItem && !string.Concat((HashSet<string>)__instance._playerOwnedCosmetics)
+                        .Contains(cosmetic.itemName)))
                 illegalMods.Add("Cosmetx");
 
             if (legalMods.Count > 0 || illegalMods.Count > 0)
-                Notifications.SendNotification($"<color={(illegalMods.Count > 0 ? "red" : "green")}>{(illegalMods.Count > 0 ? "Cheater" : "Modder")}</color> {__instance.playerNameVisible} has <color=green>{(legalMods.Count > 0 ? $"{legalMods.Count} mod{(legalMods.Count > 1 ? "s" : "")}" : "")}</color>{(legalMods.Count > 0 && illegalMods.Count > 0 ? " and " : "")}<color=red>{(illegalMods.Count > 0 ? $"{illegalMods.Count} cheat{(legalMods.Count > 1 ? "s" : "")}" : "")}</color>");
+                Notifications.SendNotification(
+                    $"<color={(illegalMods.Count > 0 ? "red" : "green")}>{(illegalMods.Count > 0 ? "Cheater" : "Modder")}</color> {__instance.playerNameVisible} has <color=green>{(legalMods.Count > 0 ? $"{legalMods.Count} mod{(legalMods.Count > 1 ? "s" : "")}" : "")}</color>{(legalMods.Count > 0 && illegalMods.Count > 0 ? " and " : "")}<color=red>{(illegalMods.Count > 0 ? $"{illegalMods.Count} cheat{(legalMods.Count > 1 ? "s" : "")}" : "")}</color>");
         }
     }
 }

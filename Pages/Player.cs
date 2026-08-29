@@ -42,7 +42,7 @@ namespace LibrePad.Pages
             camera.targetTexture = renderTexture;
             cameraObject.transform.localPosition = new Vector3(0f, 0f, 1f);
             cameraObject.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
-            
+
             photo.GetComponent<Renderer>().material = new Material(Shader.Find("Universal Render Pipeline/Unlit"))
             {
                 mainTexture = renderTexture
@@ -56,12 +56,15 @@ namespace LibrePad.Pages
 
             usageTransform.Find("Mute").AddComponent<Button>().OnClick += () =>
             {
-                GorillaPlayerScoreboardLine scoreboardLine = GorillaScoreboardTotalUpdater.allScoreboardLines.FirstOrDefault(line => line.linePlayer == targetRig.OwningNetPlayer);
+                GorillaPlayerScoreboardLine scoreboardLine =
+                    GorillaScoreboardTotalUpdater.allScoreboardLines.FirstOrDefault(line =>
+                        line.linePlayer == targetRig.OwningNetPlayer);
 
                 scoreboardLine.muteButton.isOn = !scoreboardLine.muteButton.isOn;
                 scoreboardLine?.PressButton(scoreboardLine.muteButton.isOn, GorillaPlayerLineButton.ButtonType.Mute);
 
-                usageTransform.Find("Mute/Text").GetComponent<TextMeshPro>().SafeSetText(scoreboardLine.muteButton.isOn ? "Unmute" : "Mute");
+                usageTransform.Find("Mute/Text").GetComponent<TextMeshPro>()
+                    .SafeSetText(scoreboardLine.muteButton.isOn ? "Unmute" : "Mute");
             };
 
             usageTransform.Find("Report").AddComponent<Button>().OnClick += () =>
@@ -72,7 +75,9 @@ namespace LibrePad.Pages
 
             usageTransform.Find("ReportReasons/Cheating").AddComponent<Button>().OnClick += () =>
             {
-                GorillaPlayerScoreboardLine scoreboardLine = GorillaScoreboardTotalUpdater.allScoreboardLines.FirstOrDefault(line => line.linePlayer == targetRig.OwningNetPlayer);
+                GorillaPlayerScoreboardLine scoreboardLine =
+                    GorillaScoreboardTotalUpdater.allScoreboardLines.FirstOrDefault(line =>
+                        line.linePlayer == targetRig.OwningNetPlayer);
                 scoreboardLine?.PressButton(true, GorillaPlayerLineButton.ButtonType.Cheating);
 
                 usageTransform.Find("Report").gameObject.SetActive(true);
@@ -81,7 +86,9 @@ namespace LibrePad.Pages
 
             usageTransform.Find("ReportReasons/Toxicity").AddComponent<Button>().OnClick += () =>
             {
-                GorillaPlayerScoreboardLine scoreboardLine = GorillaScoreboardTotalUpdater.allScoreboardLines.FirstOrDefault(line => line.linePlayer == targetRig.OwningNetPlayer);
+                GorillaPlayerScoreboardLine scoreboardLine =
+                    GorillaScoreboardTotalUpdater.allScoreboardLines.FirstOrDefault(line =>
+                        line.linePlayer == targetRig.OwningNetPlayer);
                 scoreboardLine?.PressButton(true, GorillaPlayerLineButton.ButtonType.Toxicity);
 
                 usageTransform.Find("Report").gameObject.SetActive(true);
@@ -90,7 +97,9 @@ namespace LibrePad.Pages
 
             usageTransform.Find("ReportReasons/HateSpeech").AddComponent<Button>().OnClick += () =>
             {
-                GorillaPlayerScoreboardLine scoreboardLine = GorillaScoreboardTotalUpdater.allScoreboardLines.FirstOrDefault(line => line.linePlayer == targetRig.OwningNetPlayer);
+                GorillaPlayerScoreboardLine scoreboardLine =
+                    GorillaScoreboardTotalUpdater.allScoreboardLines.FirstOrDefault(line =>
+                        line.linePlayer == targetRig.OwningNetPlayer);
                 scoreboardLine?.PressButton(true, GorillaPlayerLineButton.ButtonType.HateSpeech);
 
                 usageTransform.Find("Report").gameObject.SetActive(true);
@@ -105,8 +114,10 @@ namespace LibrePad.Pages
 
             usageTransform.Find("Prioritize").AddComponent<Button>().OnClick += () =>
             {
-                PrioritizeVoicePatch.prioritizedRig = PrioritizeVoicePatch.prioritizedRig == targetRig ? null : targetRig;
-                usageTransform.Find("Prioritize/Text").GetComponent<TextMeshPro>().SafeSetText(PrioritizeVoicePatch.prioritizedRig == targetRig ? "Unprioritize" : "Prioritize");
+                PrioritizeVoicePatch.prioritizedRig =
+                    PrioritizeVoicePatch.prioritizedRig == targetRig ? null : targetRig;
+                usageTransform.Find("Prioritize/Text").GetComponent<TextMeshPro>()
+                    .SafeSetText(PrioritizeVoicePatch.prioritizedRig == targetRig ? "Unprioritize" : "Prioritize");
             };
 
             usageTransform.Find("Mods").AddComponent<Button>().OnClick += () =>
@@ -134,7 +145,9 @@ namespace LibrePad.Pages
 
         public void Update()
         {
-            bool canSelect = NetworkSystem.Instance.InRoom && Vector3.Distance(transform.position, GorillaTagger.Instance.rightHandTransform.position) > 0.4f;
+            bool canSelect = NetworkSystem.Instance.InRoom &&
+                             Vector3.Distance(transform.position, GorillaTagger.Instance.rightHandTransform.position) >
+                             0.4f;
             if (canSelect)
             {
                 if (selectObject == null)
@@ -161,7 +174,8 @@ namespace LibrePad.Pages
                 Vector3 StartPosition = GorillaTagger.Instance.rightHandTransform.position;
                 Vector3 Direction = forward;
 
-                Physics.SphereCast(StartPosition + Direction / 4f * GTPlayer.Instance.scale, 0.15f, Direction, out var Ray, 512f, NoInvisLayerMask());
+                Physics.SphereCast(StartPosition + Direction / 4f * GTPlayer.Instance.scale, 0.15f, Direction,
+                    out var Ray, 512f, NoInvisLayerMask());
                 Vector3 EndPosition = Ray.point == Vector3.zero ? StartPosition + (Direction * 512f) : Ray.point;
 
                 pingLine.SetPosition(0, StartPosition);
@@ -186,7 +200,8 @@ namespace LibrePad.Pages
                         rigTarget.mainSkin.material.shader = Shader.Find("GUI/Text Shader");
                         rigTarget.mainSkin.material.color = targetColor;
 
-                        GorillaTagger.Instance.StartVibration(false, GorillaTagger.Instance.tagHapticStrength / 2f, 0.05f);
+                        GorillaTagger.Instance.StartVibration(false, GorillaTagger.Instance.tagHapticStrength / 2f,
+                            0.05f);
 
                         lastTarget = rigTarget;
                     }
@@ -197,7 +212,8 @@ namespace LibrePad.Pages
 
                     if (trigger && !lastTriggerSelect)
                     {
-                        GorillaTagger.Instance.StartVibration(false, GorillaTagger.Instance.tagHapticStrength / 2f, GorillaTagger.Instance.tagHapticDuration / 2f);
+                        GorillaTagger.Instance.StartVibration(false, GorillaTagger.Instance.tagHapticStrength / 2f,
+                            GorillaTagger.Instance.tagHapticDuration / 2f);
 
                         selectSound ??= Utilities.Assets.LoadAsset<AudioClip>("select");
                         AudioSource audioSource = VRRig.LocalRig.rightHandPlayer;
@@ -270,17 +286,22 @@ Creation Date");
 {GetPing(targetRig)}
 {GetCreationDate(targetRig.OwningNetPlayer.UserId, (str) => updateTime = 0f)}");
 
-                    GorillaPlayerScoreboardLine scoreboardLine = GorillaScoreboardTotalUpdater.allScoreboardLines.FirstOrDefault(line => line.linePlayer == targetRig.OwningNetPlayer);
+                    GorillaPlayerScoreboardLine scoreboardLine =
+                        GorillaScoreboardTotalUpdater.allScoreboardLines.FirstOrDefault(line =>
+                            line.linePlayer == targetRig.OwningNetPlayer);
                     if (scoreboardLine != null)
-                        usage.transform.Find("Mute/Text").GetComponent<TextMeshPro>().SafeSetText(scoreboardLine.muteButton.isOn ? "Unmute" : "Mute");
-                    
-                    usage.transform.Find("Prioritize/Text").GetComponent<TextMeshPro>().SafeSetText(PrioritizeVoicePatch.prioritizedRig == targetRig ? "Unprioritize" : "Prioritize");
+                        usage.transform.Find("Mute/Text").GetComponent<TextMeshPro>()
+                            .SafeSetText(scoreboardLine.muteButton.isOn ? "Unmute" : "Mute");
+
+                    usage.transform.Find("Prioritize/Text").GetComponent<TextMeshPro>()
+                        .SafeSetText(PrioritizeVoicePatch.prioritizedRig == targetRig ? "Unprioritize" : "Prioritize");
 
                     List<string> legalMods = new List<string>();
                     List<string> illegalMods = new List<string>();
 
                     Dictionary<string, object> customProps = new Dictionary<string, object>();
-                    foreach (DictionaryEntry dictionaryEntry in targetRig.OwningNetPlayer.GetPlayerRef().CustomProperties)
+                    foreach (DictionaryEntry dictionaryEntry in targetRig.OwningNetPlayer.GetPlayerRef()
+                                 .CustomProperties)
                         customProps[dictionaryEntry.Key.ToString().ToLower()] = dictionaryEntry.Value;
 
                     foreach (var mod in modDictionary.Where(mod => customProps.ContainsKey(mod.Key.ToLower())))
@@ -292,15 +313,20 @@ Creation Date");
                     }
 
                     CosmeticsController.CosmeticSet cosmeticSet = targetRig.cosmeticSet;
-                    if (cosmeticSet.items.Any(cosmetic => !cosmetic.isNullItem && !targetRig.rawCosmeticString.Contains(cosmetic.itemName)))
+                    if (cosmeticSet.items.Any(cosmetic =>
+                            !cosmetic.isNullItem && !string.Concat((HashSet<string>)targetRig._playerOwnedCosmetics)
+                                .Contains(cosmetic.itemName)))
                         illegalMods.Add("Cosmetx");
 
                     if (usage.activeSelf)
-                        usage.transform.Find("Mods/Text").GetComponent<TextMeshPro>().SafeSetText($"Mods (<color=green>{legalMods.Count}</color>:<color=red>{illegalMods.Count}</color>)");
+                        usage.transform.Find("Mods/Text").GetComponent<TextMeshPro>().SafeSetText(
+                            $"Mods (<color=green>{legalMods.Count}</color>:<color=red>{illegalMods.Count}</color>)");
                     else if (mods.activeSelf)
                     {
-                        mods.transform.Find("Legal").GetComponent<TextMeshPro>().SafeSetText(string.Join("\n", legalMods));
-                        mods.transform.Find("Illegal").GetComponent<TextMeshPro>().SafeSetText(string.Join("\n", illegalMods));
+                        mods.transform.Find("Legal").GetComponent<TextMeshPro>()
+                            .SafeSetText(string.Join("\n", legalMods));
+                        mods.transform.Find("Illegal").GetComponent<TextMeshPro>()
+                            .SafeSetText(string.Join("\n", illegalMods));
                     }
                 }
                 else
@@ -336,6 +362,7 @@ Creation Date");
         }
 
         private static int? noInvisLayerMask;
+
         public static int NoInvisLayerMask()
         {
             noInvisLayerMask ??= ~(
@@ -350,34 +377,43 @@ Creation Date");
             return noInvisLayerMask ?? GTPlayer.Instance.locomotionEnabledLayers;
         }
 
-        public static (Vector3 position, Quaternion rotation, Vector3 up, Vector3 forward, Vector3 right) GetTrueHandPosition(bool left)
+        public static (Vector3 position, Quaternion rotation, Vector3 up, Vector3 forward, Vector3 right)
+            GetTrueHandPosition(bool left)
         {
-            Transform controllerTransform = left ? GorillaTagger.Instance.leftHandTransform : GorillaTagger.Instance.rightHandTransform;
+            Transform controllerTransform =
+                left ? GorillaTagger.Instance.leftHandTransform : GorillaTagger.Instance.rightHandTransform;
             GTPlayer.HandState handState = left ? GTPlayer.Instance.LeftHand : GTPlayer.Instance.RightHand;
 
             Quaternion rot = controllerTransform.rotation * handState.handRotOffset;
-            return (controllerTransform.position + controllerTransform.rotation * (handState.handOffset * GTPlayer.Instance.scale), rot, rot * Vector3.up, rot * Vector3.forward, rot * Vector3.right);
+            return (
+                controllerTransform.position +
+                controllerTransform.rotation * (handState.handOffset * GTPlayer.Instance.scale), rot, rot * Vector3.up,
+                rot * Vector3.forward, rot * Vector3.right);
         }
 
         private static readonly List<VRRig> convertedRigs = new List<VRRig>();
+
         public static void FixRigMaterial(VRRig rig)
         {
             if (!convertedRigs.Contains(rig))
             {
                 convertedRigs.Add(rig);
 
-                rig.mainSkin.sharedMesh.colors32 = Enumerable.Repeat((Color32)Color.white, rig.mainSkin.sharedMesh.colors32.Length).ToArray();
-                rig.mainSkin.sharedMesh.colors = Enumerable.Repeat(Color.white, rig.mainSkin.sharedMesh.colors.Length).ToArray();
+                rig.mainSkin.sharedMesh.colors32 = Enumerable
+                    .Repeat((Color32)Color.white, rig.mainSkin.sharedMesh.colors32.Length).ToArray();
+                rig.mainSkin.sharedMesh.colors =
+                    Enumerable.Repeat(Color.white, rig.mainSkin.sharedMesh.colors.Length).ToArray();
             }
         }
 
         public static string GetPlatform(VRRig rig)
         {
-            string concatStringOfCosmeticsAllowed = rig.rawCosmeticString;
+            string concatStringOfCosmeticsAllowed = string.Concat((HashSet<string>)rig._playerOwnedCosmetics);
 
             if (concatStringOfCosmeticsAllowed.Contains("S. FIRST LOGIN"))
                 return "Steam";
-            else if (concatStringOfCosmeticsAllowed.Contains("FIRST LOGIN") || rig.Creator.GetPlayerRef().CustomProperties.Count >= 2)
+            else if (concatStringOfCosmeticsAllowed.Contains("FIRST LOGIN") ||
+                     rig.Creator.GetPlayerRef().CustomProperties.Count >= 2)
                 return "PC";
 
             return "Standalone";
@@ -404,11 +440,14 @@ Creation Date");
         }
 
         public static string GetColor(VRRig rig) =>
-            string.Format("{0}, {1}, {2}", Mathf.RoundToInt(rig.playerColor.r * 9f), Mathf.RoundToInt(rig.playerColor.g * 9f), Mathf.RoundToInt(rig.playerColor.b * 9f));
+            string.Format("{0}, {1}, {2}", Mathf.RoundToInt(rig.playerColor.r * 9f),
+                Mathf.RoundToInt(rig.playerColor.g * 9f), Mathf.RoundToInt(rig.playerColor.b * 9f));
 
         public static readonly Dictionary<string, float> waitingForCreationDate = new Dictionary<string, float>();
         public static readonly Dictionary<string, string> creationDateCache = new Dictionary<string, string>();
-        public static string GetCreationDate(string input, Action<string> onTranslated = null, string format = "MM/dd/yyyy")
+
+        public static string GetCreationDate(string input, Action<string> onTranslated = null,
+            string format = "MM/dd/yyyy")
         {
             if (creationDateCache.TryGetValue(input, out string date))
                 return date;
@@ -427,7 +466,8 @@ Creation Date");
             return "Loading...";
         }
 
-        public static void GetCreationCoroutine(string userId, Action<string> onTranslated = null, string format = "MM/dd/yyyy")
+        public static void GetCreationCoroutine(string userId, Action<string> onTranslated = null,
+            string format = "MM/dd/yyyy")
         {
             if (creationDateCache.TryGetValue(userId, out string date))
             {
@@ -435,21 +475,28 @@ Creation Date");
                 return;
             }
 
-            PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest { PlayFabId = userId }, delegate (GetAccountInfoResult result) // Who designed this
-            {
-                string creationDate = result.AccountInfo.Created.ToString(format);
-                creationDateCache[userId] = creationDate;
+            PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest { PlayFabId = userId },
+                delegate(GetAccountInfoResult result) // Who designed this
+                {
+                    string creationDate = result.AccountInfo.Created.ToString(format);
+                    creationDateCache[userId] = creationDate;
 
-                onTranslated?.Invoke(creationDate);
-            }, delegate { creationDateCache[userId] = "Null"; onTranslated?.Invoke("Null"); });
+                    onTranslated?.Invoke(creationDate);
+                }, delegate
+                {
+                    creationDateCache[userId] = "Null";
+                    onTranslated?.Invoke("Null");
+                });
         }
 
         public struct ModInfo
         {
-            public string name; public bool legal;
+            public string name;
+            public bool legal;
         }
 
-        public static readonly Dictionary<string, ModInfo> modDictionary = new Dictionary<string, ModInfo> {
+        public static readonly Dictionary<string, ModInfo> modDictionary = new Dictionary<string, ModInfo>
+        {
             { "genesis", new ModInfo { name = "Genesis", legal = false } },
             { "HP_Left", new ModInfo { name = "Holdable Pad", legal = true } },
             { "GrateVersion", new ModInfo { name = "Grate", legal = true } },
@@ -506,7 +553,10 @@ Creation Date");
             { "cokecosmetics", new ModInfo { name = "Coke Cosmetx", legal = false } },
             { "GFaces", new ModInfo { name = "G Faces", legal = false } },
             { "github.com/maroon-shadow/SimpleBoards", new ModInfo { name = "Simple Boards", legal = true } },
-            { "github.com/ZlothY29IQ/GorillaMediaDisplay", new ModInfo { name = "Gorilla Media Display", legal = true } },
+            {
+                "github.com/ZlothY29IQ/GorillaMediaDisplay",
+                new ModInfo { name = "Gorilla Media Display", legal = true }
+            },
             { "github.com/ZlothY29IQ/TooMuchInfo", new ModInfo { name = "Too Much Info", legal = false } },
             { "github.com/ZlothY29IQ/RoomUtils-IW", new ModInfo { name = "Room Utils IW", legal = true } },
             { "github.com/ZlothY29IQ/MonkeClick", new ModInfo { name = "Monke Click", legal = true } },
@@ -533,7 +583,24 @@ Creation Date");
             { "Fusioned", new ModInfo { name = "Fusioned", legal = false } },
             { "y u lookin in here weirdo", new ModInfo { name = "Malachi Menu Reborn", legal = false } },
             { "ØƦƁƖƬ", new ModInfo { name = "Orbit", legal = false } },
-            { "Atlas", new ModInfo { name = "Atlas", legal = false } }
+            { "Atlas", new ModInfo { name = "Atlas", legal = false } },
+            { "kingbingus.oculusreportmenu", new ModInfo { name = "Report Menu", legal = true } },
+            { "FYS Epic Face Tracking Shit Mod", new ModInfo { name = "Eye Tracking", legal = true } },
+            { "AceUtilsPad", new ModInfo { name = "Ace Utils Pad", legal = true } }, // BDILI is marked as legal
+            { "Silly.Net", new ModInfo { name = "Silly.Net", legal = false } },
+            { "BarkSillyVersion", new ModInfo { name = "Silly Bark", legal = false } },
+            { "BarkVersion", new ModInfo { name = "Bark", legal = true } },
+            { "CFA", new ModInfo { name = "Console For All", legal = true } },
+            { "Juul_V", new ModInfo { name = "Juul", legal = false } }, // Sakuraa marks this as legal
+            { "Haze_V", new ModInfo { name = "Haze", legal = false } },
+            { "Grate", new ModInfo { name = "Mist", legal = false } },
+            { "Gemstone", new ModInfo { name = "Gemstone", legal = false } },
+            { "Nebular Paid", new ModInfo { name = "Nebular", legal = false } },
+            { "Deez's GorillaMedia", new ModInfo { name = "Deez GMedia", legal = true } },
+            { "Hose Nametags", new ModInfo { name = "Hose Nametags", legal = true } }, // Not too sure if this is legal or not
+            { "Track Track Track Sahur", new ModInfo { name = "Track Track", legal = false } },
+            { "UsingWraith", new ModInfo { name = "Wraith", legal = false } }, // Not sure what this is, but I think it's a cheat
+            { "Chud menu", new ModInfo { name = "Chud Menu", legal = false } }
         };
     }
 }
