@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace LibrePad.Utilities
     public static class Extensions
     {
         public static bool Active(this VRRig rig) =>
-            rig != null && GorillaParent.instance.vrrigs.Contains(rig);
+            rig != null && VRRigCache.ActiveRigs.Contains(rig);
 
         public static void SafeSetText(this TMP_Text tmp, string text)
         {
